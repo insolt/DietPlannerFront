@@ -1,0 +1,15 @@
+p.title {
+    text-align: center;
+}
+form {
+    display: flex;
+    flex-direction: row;
+}
+div p {
+    margin: 10px;
+}
+select {
+    width: 13vw;
+    display: flex;
+    margin: 10px 0.5vw;
+}
