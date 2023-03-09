@@ -1,5 +1,5 @@
 import React, {SyntheticEvent, useState} from "react";
-import {IngredientEntity, InstructionEntity} from 'types';
+import {IngredientEntity, InstructionEntity, MealIngredientEntity, MealInstructionEntity} from 'types';
 
 export const AddRecipe = () => {
     const [recipeName, setRecipeName] = useState<string>('');
@@ -11,6 +11,14 @@ export const AddRecipe = () => {
     const [instructionName, setInstructionName] = useState<string>('');
     const [instructionOrderNumber, setInstructionOrderNumber] = useState<number>(0);
     const [instructionsForm, setInstructionsForm] = useState<InstructionEntity[]>([]);
+    const [mealIngredientData, setMealIngredientData] = useState<MealIngredientEntity>({
+        mealDataId: '',
+        ingredientDataId: '',
+    });
+    const [mealInstructionData, setMealInstructionData] = useState<MealInstructionEntity>({
+        mealDataId: '',
+        instructionDataId: '',
+    });
 
     const addIngredient = (e: SyntheticEvent) => {
         setIngredientsForm(prev => (
@@ -68,9 +76,6 @@ export const AddRecipe = () => {
 
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
-        console.log(recipeName);
-        console.log(ingredientsForm);
-        console.log(instructionsForm);
 
         (async () => {
             //Saves recipe name to DB
@@ -84,33 +89,70 @@ export const AddRecipe = () => {
                 }),
             })
             const mealData = await mealResponse.json();
-            console.log(mealData.id);
+            const mealDataId = mealData.id;
+            setMealIngredientData(prev => (
+                {
+                    ...prev,
+                    mealDataId,
+                })
+            )
 
-            //Saves ingredients to DB
-            const ingredientResponse = await fetch('http://localhost:3001/ingredient', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(ingredientsForm),
-            })
-            const ingredientData = await ingredientResponse.json();
-            console.log(ingredientData);
+
+            //Saves ingredients and links meals with ingredients
+            for (let ingredient of ingredientsForm) {
+                const ingredientResponse = await fetch('http://localhost:3001/ingredient', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(ingredient),
+                })
+                const ingredientData = await ingredientResponse.json();
+                const ingredientDataId = ingredientData.id;
+                setMealIngredientData(prev => (
+                    {
+                        ...prev,
+                        ingredientDataId,
+                    })
+                )
+
+                const mealIngredientResponse = await fetch('http://localhost:3001/meal-ingredient', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(mealIngredientData),
+                })
+            }
+
 
             //Saves instructions to DB
-            const instructionResponse = await fetch('http://localhost:3001/instruction', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(instructionsForm),
-            })
-            const instructionData = await instructionResponse.json();
-            console.log(instructionData);
+            for (let instruction of instructionsForm) {
+                const instructionResponse = await fetch('http://localhost:3001/instruction', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(instruction),
+                })
+                const instructionData = await instructionResponse.json();
+                const instructionDataId = instructionData.id;
+                setMealInstructionData(prev => (
+                    {
+                        ...prev,
+                        instructionDataId,
+                    })
+                )
 
+                const mealInstructionResponse = await fetch('http://localhost:3001/meal-instruction', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(mealInstructionData),
+                })
 
-
-
+            }
 
         })();
     }
@@ -119,7 +161,7 @@ export const AddRecipe = () => {
     return <>
         <div>
             <form onSubmit={handleSubmit}>
-                <label>Recipe name</label>
+                <label><b>Recipe name</b></label>
                 <input
                     type="text"
                     name="recipeName"
@@ -130,60 +172,67 @@ export const AddRecipe = () => {
                 <input type="submit" value="Save recipe" />
             </form>
         </div>
+        <hr />
         <div>
             <form>
-                <legend>Ingredient<br />
-                <label>name</label>
-                <input
-                    type="text"
-                    name="ingredientName"
-                    maxLength={50}
-                    value={ingredientName}
-                    onChange={e => setIngredientName(e.target.value)}
-                />
-                <label>amount</label>
-                <input
-                    type="number"
-                    name="ingredientAmount"
-                    value={ingredientAmount}
-                    onChange={e => setIngredientAmount(Number(e.target.value))}
-                />
-                <label>units</label>
-                <input
-                    type="text"
-                    name="ingredientUnit"
-                    maxLength={20}
-                    value={ingredientUnit}
-                    onChange={e => setIngredientUnit(e.target.value)}
-                />
-                <label>energy</label>
-                <input
-                    type="number"
-                    name="ingredientEnergy"
-                    value={ingredientEnergy}
-                    onChange={e => setIngredientEnergy(Number(e.target.value))}
-                />kcal</legend>
+                <legend><b>Ingredient</b>
+                    <br />
+                    <label>name</label>
+                    <input
+                        type="text"
+                        name="ingredientName"
+                        maxLength={50}
+                        value={ingredientName}
+                        onChange={e => setIngredientName(e.target.value)}
+                    />
+                    <br />
+                    <label>amount</label>
+                    <input
+                        type="number"
+                        name="ingredientAmount"
+                        value={ingredientAmount}
+                        onChange={e => setIngredientAmount(Number(e.target.value))}
+                    />
+                    <br />
+                    <label>units</label>
+                    <input
+                        type="text"
+                        name="ingredientUnit"
+                        maxLength={20}
+                        value={ingredientUnit}
+                        onChange={e => setIngredientUnit(e.target.value)}
+                    />
+                    <br />
+                    <label>energy</label>
+                    <input
+                        type="number"
+                        name="ingredientEnergy"
+                        value={ingredientEnergy}
+                        onChange={e => setIngredientEnergy(Number(e.target.value))}
+                    />kcal</legend>
                 <input type="button" value="Add ingredient" onClick={addIngredient}/>
             </form>
         </div>
+        <hr />
         <div>
             <form>
-                <legend>Instruction<br />
-                <label>number</label>
-                <input
-                    type="number"
-                    name="instructionOrderNumber"
-                    value={instructionOrderNumber}
-                    onChange={e => setInstructionOrderNumber(Number(e.target.value))}
-                />
-                <label>action</label>
-                <input
-                    type="text"
-                    name="instructionName"
-                    maxLength={100}
-                    value={instructionName}
-                    onChange={e => setInstructionName(e.target.value)}
-                /></legend>
+                <legend><b>Instruction</b><br />
+                    <label>number</label>
+                    <input
+                        type="number"
+                        name="instructionOrderNumber"
+                        value={instructionOrderNumber}
+                        onChange={e => setInstructionOrderNumber(Number(e.target.value))}
+                    />
+                    <br />
+                    <label>action</label>
+                    <input
+                        type="text"
+                        name="instructionName"
+                        maxLength={100}
+                        value={instructionName}
+                        onChange={e => setInstructionName(e.target.value)}
+                    /></legend>
                 <input type="button" value="Add instruction" onClick={addInstruction}/>
             </form>
         </div>
@@ -211,15 +260,15 @@ export const AddRecipe = () => {
                     instructionsForm ? instructionsForm
                         .sort((a, b) => a.instructionOrderNumber - b.instructionOrderNumber)
                         .map((el, i) => <li
-                        key={i}
-                    >{el.instructionOrderNumber}. {el.instructionName}
-                        <button
-                            data-id={i}
-                            data-name={el.instructionName}
-                            data-number={el.instructionOrderNumber}
-                            onClick={editInstruction}>Edit</button>
-                        <button data-id={i} onClick={removeInstruction}>Delete</button>
-                    </li>) : ''
+                            key={i}
+                        >{el.instructionOrderNumber}. {el.instructionName}
+                            <button
+                                data-id={i}
+                                data-name={el.instructionName}
+                                data-number={el.instructionOrderNumber}
+                                onClick={editInstruction}>Edit</button>
+                            <button data-id={i} onClick={removeInstruction}>Delete</button>
+                        </li>) : ''
                 }
             </ul>
         </div>
