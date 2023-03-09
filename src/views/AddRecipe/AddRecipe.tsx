@@ -1,5 +1,5 @@
 import React, {SyntheticEvent, useState} from "react";
-import {IngredientEntity, InstructionEntity} from 'types';
+import {IngredientEntity, InstructionEntity, MealIngredientEntity, MealInstructionEntity} from 'types';
 
 export const AddRecipe = () => {
     const [recipeName, setRecipeName] = useState<string>('');
@@ -11,6 +11,14 @@ export const AddRecipe = () => {
     const [instructionName, setInstructionName] = useState<string>('');
     const [instructionOrderNumber, setInstructionOrderNumber] = useState<number>(0);
     const [instructionsForm, setInstructionsForm] = useState<InstructionEntity[]>([]);
+    const [mealIngredientData, setMealIngredientData] = useState<MealIngredientEntity>({
+        mealDataId: '',
+        ingredientDataId: '',
+    });
+    const [mealInstructionData, setMealInstructionData] = useState<MealInstructionEntity>({
+        mealDataId: '',
+        instructionDataId: '',
+    });
 
     const addIngredient = (e: SyntheticEvent) => {
         setIngredientsForm(prev => (
@@ -68,9 +76,6 @@ export const AddRecipe = () => {
 
     const handleSubmit = (e: SyntheticEvent) => {
         e.preventDefault();
-        console.log(recipeName);
-        console.log(ingredientsForm);
-        console.log(instructionsForm);
 
         (async () => {
             //Saves recipe name to DB
@@ -84,33 +89,70 @@ export const AddRecipe = () => {
                 }),
             })
             const mealData = await mealResponse.json();
-            console.log(mealData.id);
+            const mealDataId = mealData.id;
+            setMealIngredientData(prev => (
+                {
+                    ...prev,
+                    mealDataId,
+                })
+            )
 
-            //Saves ingredients to DB
-            const ingredientResponse = await fetch('http://localhost:3001/ingredient', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(ingredientsForm),
-            })
-            const ingredientData = await ingredientResponse.json();
-            console.log(ingredientData);
+
+            //Saves ingredients and links meals with ingredients
+            for (let ingredient of ingredientsForm) {
+                const ingredientResponse = await fetch('http://localhost:3001/ingredient', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(ingredient),
+                })
+                const ingredientData = await ingredientResponse.json();
+                const ingredientDataId = ingredientData.id;
+                setMealIngredientData(prev => (
+                    {
+                        ...prev,
+                        ingredientDataId,
+                    })
+                )
+
+                const mealIngredientResponse = await fetch('http://localhost:3001/meal-ingredient', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(mealIngredientData),
+                })
+            }
+
 
             //Saves instructions to DB
-            const instructionResponse = await fetch('http://localhost:3001/instruction', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(instructionsForm),
-            })
-            const instructionData = await instructionResponse.json();
-            console.log(instructionData);
+            for (let instruction of instructionsForm) {
+                const instructionResponse = await fetch('http://localhost:3001/instruction', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(instruction),
+                })
+                const instructionData = await instructionResponse.json();
+                const instructionDataId = instructionData.id;
+                setMealInstructionData(prev => (
+                    {
+                        ...prev,
+                        instructionDataId,
+                    })
+                )
 
+                const mealInstructionResponse = await fetch('http://localhost:3001/meal-instruction', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(mealInstructionData),
+                })
 
-
-
+            }
 
         })();
     }
