@@ -126,6 +126,15 @@ export const AddRecipe = () => {
             }
 
 
+                const mealIngredientResponse = await fetch('http://localhost:3001/meal-ingredient', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(mealIngredientData),
+                })
+            }
+
             //Saves instructions to DB
             for (let instruction of instructionsForm) {
                 const instructionResponse = await fetch('http://localhost:3001/instruction', {
@@ -260,15 +269,15 @@ export const AddRecipe = () => {
                     instructionsForm ? instructionsForm
                         .sort((a, b) => a.instructionOrderNumber - b.instructionOrderNumber)
                         .map((el, i) => <li
-                        key={i}
-                    >{el.instructionOrderNumber}. {el.instructionName}
-                        <button
-                            data-id={i}
-                            data-name={el.instructionName}
-                            data-number={el.instructionOrderNumber}
-                            onClick={editInstruction}>Edit</button>
-                        <button data-id={i} onClick={removeInstruction}>Delete</button>
-                    </li>) : ''
+                            key={i}
+                        >{el.instructionOrderNumber}. {el.instructionName}
+                            <button
+                                data-id={i}
+                                data-name={el.instructionName}
+                                data-number={el.instructionOrderNumber}
+                                onClick={editInstruction}>Edit</button>
+                            <button data-id={i} onClick={removeInstruction}>Delete</button>
+                        </li>) : ''
                 }
             </ul>
         </div>
