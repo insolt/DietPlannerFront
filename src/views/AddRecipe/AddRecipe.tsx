@@ -126,6 +126,15 @@ export const AddRecipe = () => {
             }
 
 
+                const mealIngredientResponse = await fetch('http://localhost:3001/meal-ingredient', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(mealIngredientData),
+                })
+            }
+
             //Saves instructions to DB
             for (let instruction of instructionsForm) {
                 const instructionResponse = await fetch('http://localhost:3001/instruction', {
@@ -176,40 +185,40 @@ export const AddRecipe = () => {
         <div>
             <form>
                 <legend><b>Ingredient</b>
-                    <br />
-                    <label>name</label>
-                    <input
-                        type="text"
-                        name="ingredientName"
-                        maxLength={50}
-                        value={ingredientName}
-                        onChange={e => setIngredientName(e.target.value)}
-                    />
-                    <br />
-                    <label>amount</label>
-                    <input
-                        type="number"
-                        name="ingredientAmount"
-                        value={ingredientAmount}
-                        onChange={e => setIngredientAmount(Number(e.target.value))}
-                    />
-                    <br />
-                    <label>units</label>
-                    <input
-                        type="text"
-                        name="ingredientUnit"
-                        maxLength={20}
-                        value={ingredientUnit}
-                        onChange={e => setIngredientUnit(e.target.value)}
-                    />
-                    <br />
-                    <label>energy</label>
-                    <input
-                        type="number"
-                        name="ingredientEnergy"
-                        value={ingredientEnergy}
-                        onChange={e => setIngredientEnergy(Number(e.target.value))}
-                    />kcal</legend>
+                <br />
+                <label>name</label>
+                <input
+                    type="text"
+                    name="ingredientName"
+                    maxLength={50}
+                    value={ingredientName}
+                    onChange={e => setIngredientName(e.target.value)}
+                />
+                <br />
+                <label>amount</label>
+                <input
+                    type="number"
+                    name="ingredientAmount"
+                    value={ingredientAmount}
+                    onChange={e => setIngredientAmount(Number(e.target.value))}
+                />
+                <br />
+                <label>units</label>
+                <input
+                    type="text"
+                    name="ingredientUnit"
+                    maxLength={20}
+                    value={ingredientUnit}
+                    onChange={e => setIngredientUnit(e.target.value)}
+                />
+                <br />
+                <label>energy</label>
+                <input
+                    type="number"
+                    name="ingredientEnergy"
+                    value={ingredientEnergy}
+                    onChange={e => setIngredientEnergy(Number(e.target.value))}
+                />kcal</legend>
                 <input type="button" value="Add ingredient" onClick={addIngredient}/>
             </form>
         </div>
@@ -217,22 +226,22 @@ export const AddRecipe = () => {
         <div>
             <form>
                 <legend><b>Instruction</b><br />
-                    <label>number</label>
-                    <input
-                        type="number"
-                        name="instructionOrderNumber"
-                        value={instructionOrderNumber}
-                        onChange={e => setInstructionOrderNumber(Number(e.target.value))}
-                    />
-                    <br />
-                    <label>action</label>
-                    <input
-                        type="text"
-                        name="instructionName"
-                        maxLength={100}
-                        value={instructionName}
-                        onChange={e => setInstructionName(e.target.value)}
-                    /></legend>
+                <label>number</label>
+                <input
+                    type="number"
+                    name="instructionOrderNumber"
+                    value={instructionOrderNumber}
+                    onChange={e => setInstructionOrderNumber(Number(e.target.value))}
+                />
+                <br />
+                <label>action</label>
+                <input
+                    type="text"
+                    name="instructionName"
+                    maxLength={100}
+                    value={instructionName}
+                    onChange={e => setInstructionName(e.target.value)}
+                /></legend>
                 <input type="button" value="Add instruction" onClick={addInstruction}/>
             </form>
         </div>
