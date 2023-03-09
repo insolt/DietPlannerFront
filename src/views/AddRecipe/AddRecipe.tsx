@@ -161,7 +161,7 @@ export const AddRecipe = () => {
     return <>
         <div>
             <form onSubmit={handleSubmit}>
-                <label>Recipe name</label>
+                <label><b>Recipe name</b></label>
                 <input
                     type="text"
                     name="recipeName"
@@ -172,9 +172,11 @@ export const AddRecipe = () => {
                 <input type="submit" value="Save recipe" />
             </form>
         </div>
+        <hr />
         <div>
             <form>
-                <legend>Ingredient<br />
+                <legend><b>Ingredient</b>
+                <br />
                 <label>name</label>
                 <input
                     type="text"
@@ -183,6 +185,7 @@ export const AddRecipe = () => {
                     value={ingredientName}
                     onChange={e => setIngredientName(e.target.value)}
                 />
+                <br />
                 <label>amount</label>
                 <input
                     type="number"
@@ -190,6 +193,7 @@ export const AddRecipe = () => {
                     value={ingredientAmount}
                     onChange={e => setIngredientAmount(Number(e.target.value))}
                 />
+                <br />
                 <label>units</label>
                 <input
                     type="text"
@@ -198,6 +202,7 @@ export const AddRecipe = () => {
                     value={ingredientUnit}
                     onChange={e => setIngredientUnit(e.target.value)}
                 />
+                <br />
                 <label>energy</label>
                 <input
                     type="number"
@@ -208,9 +213,10 @@ export const AddRecipe = () => {
                 <input type="button" value="Add ingredient" onClick={addIngredient}/>
             </form>
         </div>
+        <hr />
         <div>
             <form>
-                <legend>Instruction<br />
+                <legend><b>Instruction</b><br />
                 <label>number</label>
                 <input
                     type="number"
@@ -218,6 +224,7 @@ export const AddRecipe = () => {
                     value={instructionOrderNumber}
                     onChange={e => setInstructionOrderNumber(Number(e.target.value))}
                 />
+                <br />
                 <label>action</label>
                 <input
                     type="text"
