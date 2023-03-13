@@ -1,13 +1,13 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
-import {Main} from "./views/Main/Main";
-import {AddRecipe} from "./views/AddRecipe/AddRecipe";
+import {Planner} from "./views/Planner/Planner";
+import {NewRecipe} from "./views/NewRecipe/NewRecipe";
 
 export const App = () => {
 
   return (
       <Routes>
-        <Route path="/" element={<AddRecipe />} />
+        <Route path="/" element={<Planner />} />
       </Routes>
   );
 };
