@@ -112,8 +112,6 @@ export const NewRecipe = () => {
         })();
     }
 
-
-
     const editIngredient = (e: any) => {
         setIngredientsArr(prev => (prev.filter((el, i) => i !== Number(e.target.dataset.id))));
         setIngredientName(e.target.dataset.name);
@@ -195,29 +193,7 @@ export const NewRecipe = () => {
                 });
             })()
         };
-
-        }
-
-//-----------------------------------------------------------
-
-    // const mealIngredientResponse = await fetch('http://localhost:3001/meal-ingredient', {
-    //     method: 'POST',
-    //     headers: {
-    //         'content-type': 'application/json'
-    //     },
-    //     body: JSON.stringify(mealIngredientData),
-    // })
-    //
-    //
-    //
-    //
-    // const mealInstructionResponse = await fetch('http://localhost:3001/meal-instruction', {
-    //     method: 'POST',
-    //     headers: {
-    //         'content-type': 'application/json'
-    //     },
-    //     body: JSON.stringify(mealInstructionData),
-    // })
+    }
 
 
     return <>
