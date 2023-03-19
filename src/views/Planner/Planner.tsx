@@ -35,17 +35,21 @@ export const Planner = () => {
 
     const savePlan = (e: any) => {
         e.preventDefault();
+        const mealPlannerData = [...chosenMeals].map(el => (
+            {
+                ...el,
+                planName,
+            }
+        ));
 
         (async () => {
+
             const response = await fetch(`http://localhost:3001/plan/${planName}`, {
                 method: 'POST',
                 headers: {
                     "content-type": "application/json",
                 },
-                body: JSON.stringify({
-                    planName,
-                    chosenMeals,
-                }),
+                body: JSON.stringify(mealPlannerData),
             });
         })();
     }
