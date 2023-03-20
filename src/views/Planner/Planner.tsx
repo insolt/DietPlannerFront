@@ -1,7 +1,9 @@
 import React, {SyntheticEvent, useEffect, useState, PropsWithChildren} from "react";
-import {MealChoice} from "./../../components/MealChoice/MealChoice";
+import {Link} from "react-router-dom";
 import {MealIdNameEntity, MealIdPlannerPositionId} from 'types';
-
+import {MealChoice} from "./../../components/MealChoice/MealChoice";
+import {RecipeSummary} from "./../../components/RecipeSummary/RecipeSummary";
+import {WeekSummary} from "./../../components/WeekSummary/WeekSummary";
 import "./Planner.css";
 
 
@@ -131,8 +133,12 @@ export const Planner = () => {
                 onChange={e => setPlanName(e.target.value)}
             />
             <button type="submit">Save plan</button>
-
+            <button><Link to="/shop">Create shopping list</Link></button>
         </form>
         <hr/>
+        <div className="footer">
+            <RecipeSummary />
+            <WeekSummary />
+        </div>
     </>
 }
