@@ -21,17 +21,19 @@ export const Planner = () => {
 
 
     const chooseMeal = (e: any) => {
-        setChosenMeals(prev => (
+        const filteredMeals = [...chosenMeals].filter(el => el.plannerPositionId !== Number(e.target.dataset.id))
+        setChosenMeals(
             [
-                ...prev,
+                ...filteredMeals,
                 {
                     mealId: e.target.value,
                     plannerPositionId: Number(e.target.dataset.id),
                 }
             ]
-        ))
+               .filter(el => el.mealId !== 'Choose meal...'))
     }
 
+    console.log('Wybrane', chosenMeals);
 
     const savePlan = (e: any) => {
         e.preventDefault();
@@ -41,23 +43,22 @@ export const Planner = () => {
                 planName,
             }
         ));
+        console.log('Do wysylki', mealPlannerData);
+        for (let mealPlan of mealPlannerData) {
+            (async () => {
+                await fetch(`http://localhost:3001/plan`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(mealPlan),
+                });
 
-        (async () => {
-
-            const response = await fetch(`http://localhost:3001/plan/${planName}`, {
-                method: 'POST',
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(mealPlannerData),
-            });
-        })();
+            })();
+        }
     }
 
-
     return <>
-        <p className="title">Hi, welcome to personal meals planner</p>
-        <hr/>
         <form onSubmit={savePlan}>
             {
                 (mealsList.length > 0) ?
