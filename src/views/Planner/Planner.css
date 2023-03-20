@@ -18,3 +18,8 @@ select {
     display: flex;
     margin: 10px 0.5vw;
 }
+
+div.summary {
+    display: flex;
+
+}

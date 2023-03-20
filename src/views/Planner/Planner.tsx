@@ -133,12 +133,14 @@ export const Planner = () => {
                 onChange={e => setPlanName(e.target.value)}
             />
             <button type="submit">Save plan</button>
-            <button><Link to="/shop">Create shopping list</Link></button>
+            <button>
+                <Link to="/shop">Create shopping list</Link>
+            </button>
         </form>
         <hr/>
-        <div className="footer">
-            <RecipeSummary />
-            <WeekSummary />
+        <div className="summary">
+            <RecipeSummary {...chosenMeals}/>
+            <WeekSummary {...chosenMeals}/>
         </div>
     </>
 }

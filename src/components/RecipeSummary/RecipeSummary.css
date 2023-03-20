@@ -1,0 +1,22 @@
+div.recipe-summary {
+    margin: 0 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    display: flex;
+}
+
+div.recipe-summary:hover {
+    box-shadow: 1px 1px 5px grey;
+}
+
+table {
+    /*width: 25vw;*/
+}
+
+tr {
+    /*padding: 0 20px 5px;*/
+}
+
+tr:nth-child(3) td, tr:nth-child(5) td, tr:nth-child(7) td {
+    background-color: #eeeded;
+}
