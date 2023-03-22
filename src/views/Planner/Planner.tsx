@@ -1,16 +1,20 @@
 import React, {SyntheticEvent, useEffect, useState, PropsWithChildren} from "react";
 import {Link} from "react-router-dom";
-import {MealIdNameEntity, MealIdPlannerPositionId} from 'types';
+import {MealIdNameEntity, MealIdPlannerPositionId, SingleMealId} from 'types';
 import {MealChoice} from "./../../components/MealChoice/MealChoice";
-import {RecipeSummary} from "./../../components/RecipeSummary/RecipeSummary";
+// import {RecipeSummary} from "./../../components/RecipeSummary/RecipeSummary";
 import {WeekSummary} from "./../../components/WeekSummary/WeekSummary";
 import "./Planner.css";
+
 
 
 export const Planner = () => {
     const [mealsList, setMealsList] = useState<MealIdNameEntity[]>([]);
     const [planName, setPlanName] = useState<string>('');
     const [chosenMeals, setChosenMeals] = useState<MealIdPlannerPositionId[]>([]);
+    const [lastMealSummary, setLastMealSummary] = useState<SingleMealId>({
+        mealId: '',
+    });
 
 
     useEffect(() => {
@@ -32,10 +36,11 @@ export const Planner = () => {
                     plannerPositionId: Number(e.target.dataset.id),
                 }
             ]
-               .filter(el => el.mealId !== 'Choose meal...'))
+               .filter(el => el.mealId !== 'Choose meal...'));
+
+        setLastMealSummary({mealId: e.target.value})
     }
 
-    console.log('Wybrane', chosenMeals);
 
     const savePlan = (e: any) => {
         e.preventDefault();
@@ -48,14 +53,17 @@ export const Planner = () => {
         console.log('Do wysylki', mealPlannerData);
         for (let mealPlan of mealPlannerData) {
             (async () => {
-                await fetch(`http://localhost:3001/plan`, {
+                const response = await fetch(`http://localhost:3001/plan`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(mealPlan),
                 });
-
+                const data = await response.json();
+                if (data.saved) {
+                    setChosenMeals([]);
+                }
             })();
         }
     }
@@ -139,7 +147,7 @@ export const Planner = () => {
         </form>
         <hr/>
         <div className="summary">
-            <RecipeSummary {...chosenMeals}/>
+            {/*<RecipeSummary {...lastMealSummary}/>*/}
             <WeekSummary {...chosenMeals}/>
         </div>
     </>

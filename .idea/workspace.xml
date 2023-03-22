@@ -4,10 +4,8 @@
     <list default="true" id="1ad2a56e-5afa-4241-8420-e6ab08686b24" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/RecipeSummary/RecipeSummary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RecipeSummary/RecipeSummary.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/WeekSummary/WeekSummary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WeekSummary/WeekSummary.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Planner/Planner.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Planner/Planner.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/NewRecipe/NewRecipe.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/NewRecipe/NewRecipe.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Planner/Planner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Planner/Planner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/ShoppingList/ShoppingList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ShoppingList/ShoppingList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +79,7 @@
       <workItem from="1677711477463" duration="2365000" />
       <workItem from="1677858261417" duration="1935000" />
       <workItem from="1677862091039" duration="48713000" />
-      <workItem from="1679020778234" duration="54934000" />
+      <workItem from="1679020778234" duration="69805000" />
     </task>
     <servers />
   </component>

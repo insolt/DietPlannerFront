@@ -1,5 +1,5 @@
 import React, {SyntheticEvent, useState} from "react";
-import {IngredientEntity, InstructionEntity, MealIngredientEntity, MealInstructionEntity} from 'types';
+import {IngredientEntity, InstructionEntity} from 'types';
 
 
 export const NewRecipe = () => {
@@ -15,8 +15,9 @@ export const NewRecipe = () => {
 
 
     const handleSubmit = (e: SyntheticEvent) => {
-        // e.preventDefault();
+        e.preventDefault();
         (async () => {
+            //dodanie nazwy przepisu do BD i pobranie jego ID
             const mealResponse = await fetch('http://localhost:3001/meal', {
                 method: 'POST',
                 headers: {
@@ -27,90 +28,88 @@ export const NewRecipe = () => {
                 }),
             })
             const mealData = await mealResponse.json();
-            updateDataBase(mealData.id);
-        })();
-    }
 
-    const addIngredient = (e: SyntheticEvent) => {
-        //dodanie skladnika do bazy danych
-        (async () => {
-            const ingredientResponse = await fetch('http://localhost:3001/ingredient', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ingredientName,
-                    ingredientAmount,
-                    ingredientUnit,
-                    ingredientEnergy,
-                }),
-            })
-            const ingredientData = await ingredientResponse.json();
-
-            //wyciagniecie z BD id skladnika
-            const newIngredientId = ingredientData.id;
-
-            //dodanie skladnika wraz z id do tablicy
-            const ingredient = {
-                newIngredientId,
-                ingredientName,
-                ingredientAmount,
-                ingredientUnit,
-                ingredientEnergy,
+            //dodanie skladnika do bazy danych wraz z ID przepisu
+            if (mealData.id) {
+                for (let ingredient of ingredientsArr) {
+                    const ingredientResponse = await fetch('http://localhost:3001/ingredient', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ...ingredient,
+                            mealId: mealData.id,
+                        }),
+                    });
+                }
             }
-            setIngredientsArr(prev => (
-                [
-                    ...prev,
-                    ingredient,
-                ]
-            ))
 
-            //wyzerowanie inputow
-            setIngredientName('');
-            setIngredientAmount(0);
-            setIngredientUnit('');
-            setIngredientEnergy(0);
+            //dodanie wszystkich instruckcji do BD wraz z ID przepisu
+            if (mealData.id) {
+                for (let instruction of instructionsArr) {
+                    const instructionResponse = await fetch('http://localhost:3001/instruction', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ...instruction,
+                            mealId: mealData.id,
+                        }),
+                    })
+                }
+            }
         })();
+        setRecipeName('');
+        setIngredientsArr([]);
+        setInstructionsArr([]);
     }
 
+
+    //dodawanie skladnika do tablicy skladnikow
+    const addIngredient = (e: SyntheticEvent) => {
+
+        const ingredient = {
+            ingredientName,
+            ingredientAmount,
+            ingredientUnit,
+            ingredientEnergy,
+        }
+        setIngredientsArr(prev => (
+            [
+                ...prev,
+                ingredient,
+            ]
+        ))
+
+        //wyzerowanie inputow
+        setIngredientName('');
+        setIngredientAmount(0);
+        setIngredientUnit('');
+        setIngredientEnergy(0);
+    }
+
+
+    //dodawanie instrukcji do tablicy instrukcji
     const addInstruction = (e: SyntheticEvent) => {
 
-        //dodanie instrukcji do BD
-        (async () => {
-            const instructionResponse = await fetch('http://localhost:3001/instruction', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify({
-                    instructionName,
-                    instructionOrderNumber,
-                }),
-            })
-            const instructionData = await instructionResponse.json();
+        const instruction = {
+            instructionName,
+            instructionOrderNumber,
+        }
+        setInstructionsArr(prev => (
+            [
+                ...prev,
+                instruction,
+            ]
+        ))
 
-            //wyciagniecie z BD id instrukcji
-            const newInstructionId = instructionData.id;
-
-            //dodanie instrukcji wraz z id do tablicy
-            const instruction = {
-                newInstructionId,
-                instructionName,
-                instructionOrderNumber,
-            }
-            setInstructionsArr(prev => (
-                [
-                    ...prev,
-                    instruction,
-                ]
-            ))
-
-            //wyzerowanie inputow
-            setInstructionName('');
-            setInstructionOrderNumber(0);
-        })();
+        //wyzerowanie inputow
+        setInstructionName('');
+        setInstructionOrderNumber(0);
     }
+
 
     const editIngredient = (e: any) => {
         setIngredientsArr(prev => (prev.filter((el, i) => i !== Number(e.target.dataset.id))));
@@ -118,82 +117,22 @@ export const NewRecipe = () => {
         setIngredientAmount(Number(e.target.dataset.amount));
         setIngredientUnit(e.target.dataset.unit);
         setIngredientEnergy(Number(e.target.dataset.energy));
-        (async () => {
-            await fetch(`http://localhost:3001/ingredient/${e.target.dataset.editid}`, {
-                method: 'DELETE',
-            });
-        })();
     }
 
     const removeIngredient = (e: any) => {
         setIngredientsArr(prev => (prev.filter((el, i) => i !== Number(e.target.dataset.id))));
-        (async () => {
-            await fetch(`http://localhost:3001/ingredient/${e.target.dataset.editid}`, {
-                method: 'DELETE',
-            });
-        })();
     }
 
     const editInstruction = (e: any) => {
         setInstructionsArr(prev => (prev.filter((el, i) => i !== Number(e.target.dataset.id))));
         setInstructionName(e.target.dataset.name);
         setInstructionOrderNumber(Number(e.target.dataset.number));
-        (async () => {
-            await fetch(`http://localhost:3001/instruction/${e.target.dataset.editid}`, {
-                method: 'DELETE',
-            });
-        })();
     }
 
     const removeInstruction = (e: any) => {
         setInstructionsArr(prev => (prev.filter((el, i) => i !== Number(e.target.dataset.id))));
-        (async () => {
-            await fetch(`http://localhost:3001/instruction/${e.target.dataset.editid}`, {
-                method: 'DELETE',
-            });
-        })();
     }
 
-    const updateDataBase = (mealId: string) => {
-
-        for (let ingredient of ingredientsArr) {
-            const ingredientIdData = ingredient.newIngredientId;
-            const mealIdData = mealId;
-            const data = {
-                mealIdData,
-                ingredientIdData,
-            } as MealIngredientEntity;
-
-            (async () => {
-                await fetch('http://localhost:3001/meal-ingredient', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                });
-            })()
-        };
-
-        for (let instruction of instructionsArr) {
-            const instructionIdData = instruction.newInstructionId;
-            const mealIdData = mealId;
-            const data = {
-                mealIdData,
-                instructionIdData,
-            } as MealInstructionEntity;
-
-            (async () => {
-                await fetch('http://localhost:3001/meal-instruction', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                });
-            })()
-        };
-    }
 
 
     return <>
@@ -283,7 +222,6 @@ export const NewRecipe = () => {
                             {el.ingredientName} {el.ingredientAmount} {el.ingredientUnit} - {el.ingredientEnergy} kcal
                             <button
                                 data-id={i}
-                                data-editid={el.newIngredientId}
                                 data-name={el.ingredientName}
                                 data-amount={el.ingredientAmount}
                                 data-unit={el.ingredientUnit}
@@ -292,7 +230,6 @@ export const NewRecipe = () => {
                             </button>
                             <button
                                 data-id={i}
-                                data-newid={el.newIngredientId}
                                 onClick={removeIngredient}>Delete
                             </button>
                         </li>
@@ -310,14 +247,12 @@ export const NewRecipe = () => {
                                 {el.instructionOrderNumber}. {el.instructionName}
                                 <button
                                     data-id={i}
-                                    data-editid={el.newInstructionId}
                                     data-name={el.instructionName}
                                     data-number={el.instructionOrderNumber}
                                     onClick={editInstruction}>Edit
                                 </button>
                                 <button
                                     data-id={i}
-                                    data-editid={el.newInstructionId}
                                     onClick={removeInstruction}>Delete
                                 </button>
                             </li>
