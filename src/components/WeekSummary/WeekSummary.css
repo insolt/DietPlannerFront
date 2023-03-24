@@ -10,12 +10,13 @@ div.week-summary:hover {
 
 table {
     width: 25vw;
+    border-collapse: collapse;
 }
 
 tr {
     padding: 0 20px 5px;
 }
 
-tr:nth-child(3) td, tr:nth-child(5) td, tr:nth-child(7) td {
+tr:nth-child(2) td, tr:nth-child(4) td, tr:nth-child(6) td {
     background-color: #eeeded;
 }

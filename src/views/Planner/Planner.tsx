@@ -1,6 +1,6 @@
 import React, {SyntheticEvent, useEffect, useState, PropsWithChildren} from "react";
 import {Link} from "react-router-dom";
-import {MealIdNameEntity, MealIdPlannerPositionId, SingleMealId} from 'types';
+import {MealIdNameEntity, MealIdPlannerPositionId, SingleMealIds} from 'types';
 import {MealChoice} from "./../../components/MealChoice/MealChoice";
 // import {RecipeSummary} from "./../../components/RecipeSummary/RecipeSummary";
 import {WeekSummary} from "./../../components/WeekSummary/WeekSummary";
@@ -12,9 +12,7 @@ export const Planner = () => {
     const [mealsList, setMealsList] = useState<MealIdNameEntity[]>([]);
     const [planName, setPlanName] = useState<string>('');
     const [chosenMeals, setChosenMeals] = useState<MealIdPlannerPositionId[]>([]);
-    const [lastMealSummary, setLastMealSummary] = useState<SingleMealId>({
-        mealId: '',
-    });
+    const [lastMealSummary, setLastMealSummary] = useState<SingleMealIds>();
 
 
     useEffect(() => {
@@ -28,6 +26,7 @@ export const Planner = () => {
 
     const chooseMeal = (e: any) => {
         const filteredMeals = [...chosenMeals].filter(el => el.plannerPositionId !== Number(e.target.dataset.id))
+
         setChosenMeals(
             [
                 ...filteredMeals,
@@ -38,7 +37,10 @@ export const Planner = () => {
             ]
                .filter(el => el.mealId !== 'Choose meal...'));
 
-        setLastMealSummary({mealId: e.target.value})
+        setLastMealSummary({
+            mealId: e.target.value,
+            plannerPositionId: Number(e.target.dataset.id),
+        })
     }
 
 
@@ -50,7 +52,7 @@ export const Planner = () => {
                 planName,
             }
         ));
-        console.log('Do wysylki', mealPlannerData);
+
         for (let mealPlan of mealPlannerData) {
             (async () => {
                 const response = await fetch(`http://localhost:3001/plan`, {
@@ -67,6 +69,7 @@ export const Planner = () => {
             })();
         }
     }
+
 
     return <>
         <form onSubmit={savePlan}>
@@ -148,7 +151,14 @@ export const Planner = () => {
         <hr/>
         <div className="summary">
             {/*<RecipeSummary {...lastMealSummary}/>*/}
-            <WeekSummary {...chosenMeals}/>
+            {
+                (!lastMealSummary) ?
+                    <div>
+                        <p>To get weekly summary</p>
+                        <p>start choosing meals</p>
+                    </div> :
+                    <WeekSummary mealId={lastMealSummary.mealId} plannerPositionId={lastMealSummary.plannerPositionId}/>
+            }
         </div>
     </>
 }
