@@ -47,7 +47,9 @@ export const RecipeSummary = (props: Props) => {
                          (!data) ? (
                              <p>Data loading...</p>
                          ) : (
-                             data.resultInstruction.map((el, i) => <li key={i}>{el.order_number}. {el.name}</li>)
+                             data.resultInstruction
+                                 .sort((a, b) => a.order_number - b.order_number)
+                                 .map((el, i) => <li key={i}>{el.order_number}. {el.name}</li>)
                          )
                      }
                  </ul>
