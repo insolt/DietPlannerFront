@@ -5,6 +5,7 @@ import {MealChoice} from "./../../components/MealChoice/MealChoice";
 // import {RecipeSummary} from "./../../components/RecipeSummary/RecipeSummary";
 import {WeekSummary} from "./../../components/WeekSummary/WeekSummary";
 import "./Planner.css";
+import {RecipeSummary} from "../../components/RecipeSummary/RecipeSummary";
 
 
 
@@ -150,11 +151,15 @@ export const Planner = () => {
         </form>
         <hr/>
         <div className="summary">
-            {/*<RecipeSummary {...lastMealSummary}/>*/}
+            {
+                (!lastMealSummary) ?
+                    <div></div> :
+                    <RecipeSummary mealId={lastMealSummary.mealId} plannerPositionId={lastMealSummary.plannerPositionId}/>
+            }
             {
                 (!lastMealSummary) ?
                     <div>
-                        <p>To get weekly summary</p>
+                        <p>To get summary</p>
                         <p>start choosing meals</p>
                     </div> :
                     <WeekSummary mealId={lastMealSummary.mealId} plannerPositionId={lastMealSummary.plannerPositionId}/>

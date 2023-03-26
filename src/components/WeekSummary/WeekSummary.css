@@ -8,15 +8,20 @@ div.week-summary:hover {
     box-shadow: 1px 1px 5px grey;
 }
 
+.tableCell {
+    /*border: 1px dotted grey;*/
+}
 table {
-    width: 25vw;
+    width: 300px;
     border-collapse: collapse;
 }
-
-tr {
+th {
+    text-align: left;
     padding: 0 20px 5px;
 }
 
-tr:nth-child(2) td, tr:nth-child(4) td, tr:nth-child(6) td {
+
+tr:nth-child(even) {
     background-color: #eeeded;
 }
+

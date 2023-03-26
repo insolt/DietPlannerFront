@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-// import {IngredientEnergy} from "types";
 import "./WeekSummary.css";
 
 interface IngredientEnergy {
@@ -21,14 +20,6 @@ export const WeekSummary = (props: Props) => {
     const [fridayKcal, setFridayKcal] = useState<number>(0);
     const [saturdayKcal, setSaturdayKcal] = useState<number>(0);
     const [sundayKcal, setSundayKcal] = useState<number>(0);
-    // const [lastlyChosenMealId, setLastlyChosenMealId] = useState<string>('');
-    // const [lastlyChosenMealPositionId, setLastlyChosenMealPositionId] = useState<number>(0);
-
-    // const chosenMealsArray = Object.values(props);
-    // if (chosenMealsArray.length > 0) {
-    //     setLastlyChosenMealId(chosenMealsArray[chosenMealsArray.length - 1].mealId);
-    //     setLastlyChosenMealPositionId(chosenMealsArray[chosenMealsArray.length - 1].plannerPositionId);
-    // }
 
 
     useEffect(() => {
@@ -42,26 +33,15 @@ export const WeekSummary = (props: Props) => {
 
 
 
-    // if (lastlyChosenMealPositionId >= 1 && lastlyChosenMealPositionId <=5) {
-    //     setMondayKcal(prev => prev + energyValue);
-    // } else if (lastlyChosenMealPositionId >= 6 && lastlyChosenMealPositionId <= 10) {
-    //     setTuesdayKcal(prev => prev + energyValue);
-    // } else if (lastlyChosenMealPositionId >= 11 && lastlyChosenMealPositionId <= 15) {
-    //     setWednesdayKcal(prev => prev + energyValue);
-    // } else if (lastlyChosenMealPositionId >= 16 && lastlyChosenMealPositionId <= 20) {
-    //     setThursdayKcal(prev => prev + energyValue);
-    // } else if (lastlyChosenMealPositionId >= 21 && lastlyChosenMealPositionId <= 25) {
-    //     setFridayKcal(prev => prev + energyValue);
-    // } else if (lastlyChosenMealPositionId >= 26 && lastlyChosenMealPositionId <= 30) {
-    //     setSaturdayKcal(prev => prev + energyValue);
-    // } else setSundayKcal(prev => prev + energyValue);
+
 
 
     return <div className="week-summary">
         <table>
             <thead>
                 <tr>
-                    <td><b>Week summary</b></td><td><b>{(!energyValue) ? 0 : energyValue} Kcal</b></td>
+                    <th className="tableCell" scope="col">Week summary</th>
+                    <th className="tableCell" scope="col">{(!energyValue) ? 0 : energyValue} Kcal</th>
                 </tr>
             </thead>
             <tbody>

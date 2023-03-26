@@ -1,10 +1,22 @@
 div.recipe-summary {
+    font-size: .8em;
     margin: 0 10px;
     border: 1px solid gray;
     border-radius: 5px;
     display: flex;
 }
-
+.left-panel {
+    /*border: 1px solid red;*/
+    width: 50%;
+}
+.right-panel {
+    /*border: 1px solid green;*/
+    width: 50%;
+}
+span {
+    font-style: italic;
+    font-weight: 900;
+}
 div.recipe-summary:hover {
     box-shadow: 1px 1px 5px grey;
 }

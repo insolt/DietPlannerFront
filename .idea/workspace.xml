@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1ad2a56e-5afa-4241-8420-e6ab08686b24" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/RecipeSummary/RecipeSummary.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RecipeSummary/RecipeSummary.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/RecipeSummary/RecipeSummary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RecipeSummary/RecipeSummary.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/WeekSummary/WeekSummary.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WeekSummary/WeekSummary.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/WeekSummary/WeekSummary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/WeekSummary/WeekSummary.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Planner/Planner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Planner/Planner.tsx" afterDir="false" />
@@ -79,7 +81,7 @@
       <workItem from="1677711477463" duration="2365000" />
       <workItem from="1677858261417" duration="1935000" />
       <workItem from="1677862091039" duration="48713000" />
-      <workItem from="1679020778234" duration="87644000" />
+      <workItem from="1679020778234" duration="103423000" />
     </task>
     <servers />
   </component>
