@@ -3,3 +3,16 @@ div.header {
     display: flex;
     justify-content: space-around;
 }
+.navlink {
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.navlink:hover {
+    background-color: grey;
+    color: white;
+}
+.active {
+    border-radius: 4px 4px 0 0;
+    border-bottom: 2px solid grey;
+}

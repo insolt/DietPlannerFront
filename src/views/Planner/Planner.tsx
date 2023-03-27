@@ -144,9 +144,9 @@ export const Planner = () => {
                 onChange={e => setPlanName(e.target.value)}
             />
             <button type="submit">Save plan</button>
-            <button>
-                <Link to="/shop">Create shopping list</Link>
-            </button>
+            {/*<button>*/}
+            {/*    <Link to="/shop">Create shopping list</Link>*/}
+            {/*</button>*/}
         </form>
         <hr/>
         <div className="summary">
@@ -158,8 +158,7 @@ export const Planner = () => {
             {
                 (!lastMealSummary) ?
                     <div>
-                        <p>To get summary</p>
-                        <p>start choosing meals</p>
+                        <p>To get summary start choosing meals</p>
                     </div> :
                     <WeekSummary mealId={lastMealSummary.mealId} plannerPositionId={lastMealSummary.plannerPositionId}/>
             }

@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {NavLink, Link} from "react-router-dom";
 import "./Header.css"
 
 
@@ -8,10 +8,11 @@ export const Header = () => {
         <p className="title">Hi {<b><i>user</i></b>}, welcome to personal meals planner</p>
         <hr/>
         <div className="header">
-            <Link to="/nplan">New plan</Link>
-            <Link to="/aplan">Alter existing plan</Link>
-            <Link to="/nrecipe">Add recipe</Link>
-            <Link to="/arecipe">Alter existing recipe</Link>
+            <NavLink to="/nplan" className="navlink">Add new plan</NavLink>
+            <NavLink to="/aplan" className="navlink">Alter existing plan</NavLink>
+            <NavLink to="/nrecipe" className="navlink">Add new recipe</NavLink>
+            <NavLink to="/arecipe" className="navlink">Alter existing recipe</NavLink>
+            <NavLink to="/shopping" className="navlink">Create shopping list</NavLink>
         </div>
         <hr/>
     </>

@@ -1,4 +1,5 @@
 div.week-summary {
+    width: 25vw;
     font-size: .8em;
     border: 1px solid gray;
     border-radius: 5px;
