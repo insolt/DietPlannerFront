@@ -1,7 +1,8 @@
 div.week-summary {
+    font-size: .8em;
     border: 1px solid gray;
     border-radius: 5px;
-
+    padding: 10px 0 10px 20px;
 }
 
 div.week-summary:hover {
@@ -20,8 +21,10 @@ th {
     padding: 0 20px 5px;
 }
 
-
-tr:nth-child(even) {
+tbody tr:nth-child(odd) {
     background-color: #eeeded;
 }
 
+tbody tr td {
+    padding: 3px 0 3px 20px;
+}

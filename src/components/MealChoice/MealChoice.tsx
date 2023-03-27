@@ -16,7 +16,7 @@ export const MealChoice: FC<PropsWithChildren<Props>> = ({plannedMealId, mealsLi
             data-id={plannedMealId}
             onChange={e => onChooseMeal(e)}
         >
-            <option>Choose meal...</option>
+            <option value={0}>Choose meal...</option>
             {
                     [...mealsList].map((el, i) => (
                         <option

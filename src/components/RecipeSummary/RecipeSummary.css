@@ -4,6 +4,7 @@ div.recipe-summary {
     border: 1px solid gray;
     border-radius: 5px;
     display: flex;
+    padding: 0 10px 15px;
 }
 .left-panel {
     /*border: 1px solid red;*/
@@ -12,6 +13,9 @@ div.recipe-summary {
 .right-panel {
     /*border: 1px solid green;*/
     width: 50%;
+}
+ul {
+    margin-left: 20px;
 }
 span {
     font-style: italic;

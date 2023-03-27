@@ -1,9 +1,8 @@
 import React, {SyntheticEvent, useEffect, useState, PropsWithChildren} from "react";
 import {Link} from "react-router-dom";
 import {MealIdNameEntity, MealIdPlannerPositionId, SingleMealIds} from 'types';
-import {MealChoice} from "./../../components/MealChoice/MealChoice";
-// import {RecipeSummary} from "./../../components/RecipeSummary/RecipeSummary";
-import {WeekSummary} from "./../../components/WeekSummary/WeekSummary";
+import {MealChoice} from "../../components/MealChoice/MealChoice";
+import {WeekSummary} from "../../components/WeekSummary/WeekSummary";
 import "./Planner.css";
 import {RecipeSummary} from "../../components/RecipeSummary/RecipeSummary";
 
