@@ -18,7 +18,17 @@ select {
     display: flex;
     margin: 10px 0.5vw;
 }
-
+div.save-plan {
+    display: flex;
+    justify-content: center;
+}
+.save-plan input {
+    width: 250px;
+    margin: 0 20px;
+}
+.save-plan button {
+    margin: 0 20px;
+}
 div.summary {
     display: flex;
     justify-content: center;

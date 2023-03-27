@@ -136,17 +136,16 @@ export const Planner = () => {
                     <h4>Please wait, data loading...</h4>
             }
             <hr/>
-            <input
-                type="text"
-                name="planName"
-                placeholder="Plan's name..."
-                value={planName}
-                onChange={e => setPlanName(e.target.value)}
-            />
-            <button type="submit">Save plan</button>
-            {/*<button>*/}
-            {/*    <Link to="/shop">Create shopping list</Link>*/}
-            {/*</button>*/}
+            <div className="save-plan">
+                <input
+                    type="text"
+                    name="planName"
+                    placeholder="Plan's name..."
+                    value={planName}
+                    onChange={e => setPlanName(e.target.value)}
+                />
+                <button type="submit">Save plan</button>
+            </div>
         </form>
         <hr/>
         <div className="summary">

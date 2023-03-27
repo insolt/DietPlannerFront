@@ -1,5 +1,6 @@
 import React, {SyntheticEvent, useState} from "react";
 import {IngredientEntity, InstructionEntity} from 'types';
+import "./NewRecipe.css";
 
 
 export const NewRecipe = () => {
@@ -137,128 +138,150 @@ export const NewRecipe = () => {
 
     return <>
         <div>
-            <form onSubmit={handleSubmit}>
+            <form className="submit-form" onSubmit={handleSubmit}>
                 <label><b>Recipe name</b></label>
                 <input
                     type="text"
                     name="recipeName"
                     maxLength={50}
                     value={recipeName}
+                    placeholder="recipe name"
                     onChange={e => setRecipeName(e.target.value)}
                 />
                 <input type="submit" value="Save recipe"/>
             </form>
         </div>
         <hr/>
-        <div>
-            <form>
-                <legend><b>Ingredient</b>
-                    <br/>
-                    <label>name</label>
-                    <input
-                        type="text"
-                        name="ingredientName"
-                        maxLength={50}
-                        value={ingredientName}
-                        onChange={e => setIngredientName(e.target.value)}
-                    />
-                    <br/>
-                    <label>amount</label>
-                    <input
-                        type="number"
-                        name="ingredientAmount"
-                        value={ingredientAmount}
-                        onChange={e => setIngredientAmount(Number(e.target.value))}
-                    />
-                    <br/>
-                    <label>units</label>
-                    <input
-                        type="text"
-                        name="ingredientUnit"
-                        maxLength={20}
-                        value={ingredientUnit}
-                        onChange={e => setIngredientUnit(e.target.value)}
-                    />
-                    <br/>
-                    <label>energy</label>
-                    <input
-                        type="number"
-                        name="ingredientEnergy"
-                        value={ingredientEnergy}
-                        onChange={e => setIngredientEnergy(Number(e.target.value))}
-                    />kcal
-                </legend>
-                <input type="button" value="Add ingredient" onClick={addIngredient}/>
-            </form>
-        </div>
-        <hr/>
-        <div>
-            <form>
-                <legend><b>Instruction</b><br/>
-                    <label>number</label>
-                    <input
-                        type="number"
-                        name="instructionOrderNumber"
-                        value={instructionOrderNumber}
-                        onChange={e => setInstructionOrderNumber(Number(e.target.value))}
-                    />
-                    <br/>
-                    <label>action</label>
-                    <input
-                        type="text"
-                        name="instructionName"
-                        maxLength={100}
-                        value={instructionName}
-                        onChange={e => setInstructionName(e.target.value)}
-                    /></legend>
-                <input type="button" value="Add instruction" onClick={addInstruction}/>
-            </form>
-        </div>
-        <div>
-            <ul>
-                {
-                    ingredientsArr.length > 0 ? ingredientsArr.map((el, i) => (
-                        <li key={i}>
-                            {el.ingredientName} {el.ingredientAmount} {el.ingredientUnit} - {el.ingredientEnergy} kcal
-                            <button
-                                data-id={i}
-                                data-name={el.ingredientName}
-                                data-amount={el.ingredientAmount}
-                                data-unit={el.ingredientUnit}
-                                data-energy={el.ingredientEnergy}
-                                onClick={editIngredient}>Edit
-                            </button>
-                            <button
-                                data-id={i}
-                                onClick={removeIngredient}>Delete
-                            </button>
-                        </li>
-                    )) : ''
-                }
-            </ul>
-        </div>
-        <div>
-            <ul>
-                {
-                    instructionsArr.length > 0 ? instructionsArr
-                        .sort((a, b) => a.instructionOrderNumber - b.instructionOrderNumber)
-                        .map((el, i) => (
+        <div className="ingredient-wrapper">
+            <div className="form">
+                <form className="ingredient-form">
+                    <legend><b>Ingredient</b>
+                        <br/><br/>
+                        <div className="elementForm">
+                            <label>Name</label>
+                            <input
+                                type="text"
+                                name="ingredientName"
+                                maxLength={50}
+                                value={ingredientName}
+                                onChange={e => setIngredientName(e.target.value)}
+                            />
+                        </div>
+                        <br/>
+                        <div className="elementForm">
+                            <label>Amount</label>
+                            <input
+                                type="number"
+                                name="ingredientAmount"
+                                value={ingredientAmount}
+                                onChange={e => setIngredientAmount(Number(e.target.value))}
+                            />
+                        </div>
+                        <br/>
+                        <div className="elementForm">
+                            <label>Unit</label>
+                            <input
+                                type="text"
+                                name="ingredientUnit"
+                                maxLength={20}
+                                value={ingredientUnit}
+                                onChange={e => setIngredientUnit(e.target.value)}
+                            />
+                        </div>
+                        <br/>
+                        <div className="elementForm">
+                            <label>Energy</label>
+                            <input
+                                type="number"
+                                name="ingredientEnergy"
+                                value={ingredientEnergy}
+                                onChange={e => setIngredientEnergy(Number(e.target.value))}
+                            />
+                        </div>kcal
+                    </legend>
+                    <input type="button" value="Add ingredient" onClick={addIngredient}/>
+                </form>
+            </div>
+            <div className="ingredient-list">
+                <ul>
+                    {
+                        ingredientsArr.length > 0 ? ingredientsArr.map((el, i) => (
                             <li key={i}>
-                                {el.instructionOrderNumber}. {el.instructionName}
+                                {el.ingredientName} {el.ingredientAmount} {el.ingredientUnit} - {el.ingredientEnergy} kcal
                                 <button
                                     data-id={i}
-                                    data-name={el.instructionName}
-                                    data-number={el.instructionOrderNumber}
-                                    onClick={editInstruction}>Edit
+                                    data-name={el.ingredientName}
+                                    data-amount={el.ingredientAmount}
+                                    data-unit={el.ingredientUnit}
+                                    data-energy={el.ingredientEnergy}
+                                    onClick={editIngredient}>Edit
                                 </button>
                                 <button
                                     data-id={i}
-                                    onClick={removeInstruction}>Delete
+                                    onClick={removeIngredient}>Delete
                                 </button>
                             </li>
                         )) : ''
-                }
-            </ul>
+                    }
+                </ul>
+            </div>
         </div>
+        <hr/>
+        <div className="instruction-wrapper">
+            <div className="form">
+                <form className="instruction-form">
+                    <legend>
+                        <b>Instruction</b>
+                        <br/><br/>
+                        <div className="elementForm">
+                            <label>Order number</label>
+                            <input
+                                type="number"
+                                name="instructionOrderNumber"
+                                value={instructionOrderNumber}
+                                onChange={e => setInstructionOrderNumber(Number(e.target.value))}
+                            />
+                        </div>
+                        <br/>
+                        <div className="elementForm">
+                            <label>Instruction</label>
+                            <input
+                                type="text"
+                                name="instructionName"
+                                maxLength={100}
+                                value={instructionName}
+                                onChange={e => setInstructionName(e.target.value)}
+                            />
+                        </div>
+                    </legend>
+
+                    <input type="button" value="Add instruction" onClick={addInstruction}/>
+                </form>
+            </div>
+            <div className="instruction-list">
+                <ul>
+                    {
+                        instructionsArr.length > 0 ? instructionsArr
+                            .sort((a, b) => a.instructionOrderNumber - b.instructionOrderNumber)
+                            .map((el, i) => (
+                                <li key={i}>
+                                    {el.instructionOrderNumber}. {el.instructionName}
+                                    <button
+                                        data-id={i}
+                                        data-name={el.instructionName}
+                                        data-number={el.instructionOrderNumber}
+                                        onClick={editInstruction}>Edit
+                                    </button>
+                                    <button
+                                        data-id={i}
+                                        onClick={removeInstruction}>Delete
+                                    </button>
+                                </li>
+                            )) : ''
+                    }
+                </ul>
+            </div>
+        </div>
+        <hr/>
     </>
 }

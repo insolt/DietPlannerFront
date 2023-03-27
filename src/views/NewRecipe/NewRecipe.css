@@ -1,0 +1,32 @@
+form.submit-form label, form.submit-form input {
+    margin: 0 20px;
+    display: inline-flex;
+}
+
+.ingredient-wrapper, .instruction-wrapper {
+    display: flex;
+}
+
+.ingredient-list, .instruction-list {
+    width: 50vw;
+}
+.ingredient-wrapper div, .instruction-wrapper div {
+    flex-grow: 1;
+}
+
+.elementForm {
+    width: 310px;
+    margin: 0 20px 10px;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+div.form {
+    /*border: 1px solid red;*/
+    padding: 0 15px;
+}
+
+input[type="button"] {
+    margin: 10px 0 10px 370px;
+
+}
