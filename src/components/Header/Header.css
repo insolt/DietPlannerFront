@@ -6,6 +6,8 @@ div.header {
 .navlink {
     padding: 5px 10px;
     border-radius: 4px;
+    color: #000;
+    font-weight: 500;
 }
 
 .navlink:hover {
@@ -15,4 +17,10 @@ div.header {
 .active {
     border-radius: 4px 4px 0 0;
     border-bottom: 2px solid grey;
+}
+
+.active:hover {
+    background-color: rgba(0, 0, 0, 0);
+    color: #000;
+    cursor: default;
 }

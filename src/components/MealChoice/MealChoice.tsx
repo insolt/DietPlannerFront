@@ -1,13 +1,17 @@
-import React, {SyntheticEvent, useEffect, useState, PropsWithChildren, FC} from "react";
-import {MealIdNameEntity} from "types";
+import React, {SyntheticEvent} from "react";
+import {MealEntity} from "types";
 
 interface Props {
     plannedMealId: number,
-    mealsList: MealIdNameEntity[],
+    mealsList: MealEntity[],
     onChooseMeal: (e: SyntheticEvent) => void,
 }
 
-export const MealChoice: FC<PropsWithChildren<Props>> = ({plannedMealId, mealsList, onChooseMeal}: Props) => {
+export const MealChoice = (props: Props) => {
+
+    const {plannedMealId, mealsList, onChooseMeal} = props
+
+
 
 
     return <>
@@ -23,7 +27,7 @@ export const MealChoice: FC<PropsWithChildren<Props>> = ({plannedMealId, mealsLi
                             value={el.id}
                             key={i}
                         >
-                            {el.name}
+                            {el.recipeName}
                         </option>
                     ))
             }

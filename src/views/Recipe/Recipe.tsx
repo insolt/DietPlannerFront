@@ -1,19 +1,24 @@
 import React, {SyntheticEvent, useState} from "react";
-import {IngredientEntity, InstructionEntity, MealIngredientInstruction} from 'types';
-import "./NewRecipe.css";
+import {IngredientEntity, InstructionEntity, MealEntity} from 'types';
+import "./Recipe.css";
 
-type Props = MealIngredientInstruction | null;
+type Props = { resultMeal: MealEntity[]; resultIngredient: IngredientEntity[]; resultInstruction: InstructionEntity[]; };
 
-export const NewRecipe = () => {
-    const [recipeName, setRecipeName] = useState<string>('');
+export const Recipe = (props: Props) => {
+
+    const {resultMeal, resultIngredient, resultInstruction} = props;
+    console.log(resultIngredient)
+    const [recipeName, setRecipeName] = useState<string>(resultMeal[0].recipeName);
+    const [ingredientsArr, setIngredientsArr] = useState<IngredientEntity[]>(resultIngredient);
+    const [instructionsArr, setInstructionsArr] = useState<InstructionEntity[]>(resultInstruction);
+
     const [ingredientName, setIngredientName] = useState<string>('');
     const [ingredientAmount, setIngredientAmount] = useState<number>(0);
     const [ingredientUnit, setIngredientUnit] = useState<string>('');
     const [ingredientEnergy, setIngredientEnergy] = useState<number>(0);
     const [instructionName, setInstructionName] = useState<string>('');
     const [instructionOrderNumber, setInstructionOrderNumber] = useState<number>(0);
-    const [ingredientsArr, setIngredientsArr] = useState<IngredientEntity[]>([]);
-    const [instructionsArr, setInstructionsArr] = useState<InstructionEntity[]>([]);
+
 
 
     const handleSubmit = (e: SyntheticEvent) => {
@@ -71,7 +76,6 @@ export const NewRecipe = () => {
 
     //adding ingredient to ingredients' array
     const addIngredient = (e: SyntheticEvent) => {
-
         const ingredient = {
             ingredientName,
             ingredientAmount,

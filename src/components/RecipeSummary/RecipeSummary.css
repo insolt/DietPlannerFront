@@ -6,6 +6,7 @@ div.recipe-summary {
     border-radius: 5px;
     display: flex;
     padding: 0 10px 15px;
+    background-color: #fff;
 }
 .left-panel {
     /*border: 1px solid red;*/

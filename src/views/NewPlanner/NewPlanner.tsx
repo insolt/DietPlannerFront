@@ -1,17 +1,16 @@
-import React, {SyntheticEvent, useEffect, useState, PropsWithChildren} from "react";
-import {Link} from "react-router-dom";
-import {MealIdNameEntity, MealIdPlannerPositionId, SingleMealIds} from 'types';
+import React, {useEffect, useState} from "react";
+import {MealEntity, MealIdPositionId, SingleMealIds} from 'types';
 import {MealChoice} from "../../components/MealChoice/MealChoice";
 import {WeekSummary} from "../../components/WeekSummary/WeekSummary";
-import "./Planner.css";
 import {RecipeSummary} from "../../components/RecipeSummary/RecipeSummary";
+import "./NewPlanner.css";
 
 
 
-export const Planner = () => {
-    const [mealsList, setMealsList] = useState<MealIdNameEntity[]>([]);
+export const NewPlanner = () => {
+    const [mealsList, setMealsList] = useState<MealEntity[]>([]);
     const [planName, setPlanName] = useState<string>('');
-    const [chosenMeals, setChosenMeals] = useState<MealIdPlannerPositionId[]>([]);
+    const [chosenMeals, setChosenMeals] = useState<MealIdPositionId[]>([]);
     const [lastMealSummary, setLastMealSummary] = useState<SingleMealIds>();
 
 
@@ -25,17 +24,15 @@ export const Planner = () => {
 
 
     const chooseMeal = (e: any) => {
-        const filteredMeals = [...chosenMeals].filter(el => el.plannerPositionId !== Number(e.target.dataset.id))
+        const userChosenMeal = [...mealsList].filter(el => el.id === e.target.value)[0].recipeName
 
-        setChosenMeals(
-            [
-                ...filteredMeals,
-                {
-                    mealId: e.target.value,
-                    plannerPositionId: Number(e.target.dataset.id),
-                }
-            ]
-               .filter(el => el.mealId !== 'Choose meal...'));
+        setChosenMeals(prev => (
+            [...prev, {
+                recipeName: userChosenMeal,
+                mealId: e.target.value,
+                plannerPositionId: Number(e.target.dataset.id),
+            }]
+        ))
 
         setLastMealSummary({
             mealId: e.target.value,
@@ -70,6 +67,7 @@ export const Planner = () => {
         }
     }
 
+    console.log(chosenMeals);
 
     return <>
         <form onSubmit={savePlan}>
@@ -151,13 +149,14 @@ export const Planner = () => {
         <div className="summary">
             {
                 (!lastMealSummary) ?
-                    <div></div> :
+                    <div>
+                        <p>To get summary start choosing meals</p>
+                    </div> :
                     <RecipeSummary mealId={lastMealSummary.mealId} plannerPositionId={lastMealSummary.plannerPositionId}/>
             }
             {
                 (!lastMealSummary) ?
                     <div>
-                        <p>To get summary start choosing meals</p>
                     </div> :
                     <WeekSummary mealId={lastMealSummary.mealId} plannerPositionId={lastMealSummary.plannerPositionId}/>
             }

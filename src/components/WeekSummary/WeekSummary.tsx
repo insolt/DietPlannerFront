@@ -1,17 +1,14 @@
 import React, {useEffect, useState} from "react";
 import "./WeekSummary.css";
 
+
 interface IngredientEnergy {
     energy: number,
 }
-interface MealEnergy {
-    position: number,
-    energyValue: number,
-}
 
 type Props = {
-    mealId?: string,
-    plannerPositionId?: number,
+    mealId: string,
+    plannerPositionId: number,
 }
 
 export const WeekSummary = (props: Props) => {
@@ -31,10 +28,12 @@ export const WeekSummary = (props: Props) => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/ingredient/findAll/${props.mealId}`);
+            const response = await fetch(`http://localhost:3001/ingredient/findOneEnergy/${props.mealId}`);
             const data = await response.json();
             setData(data);
             setMealPosition(props.plannerPositionId);
+            console.log(data);
+
         })();
     }, [props]);
 

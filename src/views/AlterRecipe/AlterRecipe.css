@@ -1,0 +1,24 @@
+div.alter-recipe-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+div.meal-select-form {
+    display:flex;
+}
+
+div.meal-select-form p {
+    padding: 5px 0;
+}
+
+div.meal-select-form select {
+    width: 400px;
+    padding: 5px 0 5px 15px;
+}
+
+
+div.recipe-alter-form {
+    display: block;
+}
