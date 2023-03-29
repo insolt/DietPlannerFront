@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {MealEntity, MealIngredientInstruction} from "types";
+import {IngredientEntityFront, InstructionEntityFront, MealEntity} from "types";
 import {MealChoice} from "../../components/MealChoice/MealChoice";
 import {Recipe} from "../Recipe/Recipe";
 import "./AlterRecipe.css";
@@ -7,10 +7,11 @@ import "./AlterRecipe.css";
 
 
 export const AlterRecipe = () => {
+    const [recipeName, setRecipeName] = useState<string>('');
     const [mealsList, setMealsList] = useState<MealEntity[]>([]);
-    const [data, setData] = useState<MealIngredientInstruction>();
-    const [alterRecipeOfMealId, setAlterRecipeOfMealId] = useState<string>('');
-
+    const [alterRecipeOfMealId, setAlterRecipeOfMealId] = useState<string | undefined>('');
+    const [ingredientsArr, setIngredientsArr] = useState<IngredientEntityFront[]>([]);
+    const [instructionsArr, setInstructionsArr] = useState<InstructionEntityFront[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -25,15 +26,33 @@ export const AlterRecipe = () => {
         (async () => {
             const response = await fetch(`http://localhost:3001/meal/${alterRecipeOfMealId}`);
             const data = await response.json();
-            setData(data);
-            console.log(data)
+            setRecipeName(data[0].recipeName);
+        })();
+    }, [alterRecipeOfMealId])
+
+
+    useEffect(() => {
+        (async () => {
+            const response = await fetch(`http://localhost:3001/ingredient/getSet/${alterRecipeOfMealId}`);
+            const data = await response.json();
+            setIngredientsArr(data);
+        })();
+    }, [alterRecipeOfMealId])
+
+
+    useEffect(() => {
+        (async () => {
+            const response = await fetch(`http://localhost:3001/instruction/getSet/${alterRecipeOfMealId}`);
+            const data = await response.json();
+            setInstructionsArr(data);
         })();
     }, [alterRecipeOfMealId])
 
 
     const chooseMeal = (e: any) => {
-        const alterMealId = ([...mealsList].filter(el => el.id === e.target.value));
-        setAlterRecipeOfMealId(alterMealId[0].recipeName);
+        const alterMeal = ([...mealsList].filter(el => el.id === e.target.value));
+        setRecipeName(alterMeal[0].recipeName);
+        setAlterRecipeOfMealId(alterMeal[0].id);
     }
 
 
@@ -49,9 +68,9 @@ export const AlterRecipe = () => {
             </div>
             <div className="recipe-alter-form">
                 {
-                    (!data) ?
+                    !(ingredientsArr.length > 0 && instructionsArr.length > 0) ?
                         <h4>Choose recipe to alter...</h4> :
-                        <Recipe resultMeal={data.resultMeal} resultIngredient={data.resultIngredient} resultInstruction={data.resultInstruction}/>
+                        <Recipe alterRecipe={[{id: alterRecipeOfMealId, recipeName: recipeName}]} alterIngredients={ingredientsArr} alterInstructions={instructionsArr}/>
                 }
             </div>
         </div>

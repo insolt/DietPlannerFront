@@ -32,8 +32,6 @@ export const WeekSummary = (props: Props) => {
             const data = await response.json();
             setData(data);
             setMealPosition(props.plannerPositionId);
-            console.log(data);
-
         })();
     }, [props]);
 

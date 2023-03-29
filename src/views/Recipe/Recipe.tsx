@@ -1,16 +1,15 @@
-import React, {SyntheticEvent, useState} from "react";
-import {IngredientEntity, InstructionEntity, MealEntity} from 'types';
+import React, {SyntheticEvent, useEffect, useState} from "react";
+import {IngredientEntity, IngredientEntityFront, InstructionEntity, InstructionEntityFront, MealEntity} from 'types';
 import "./Recipe.css";
 
-type Props = { resultMeal: MealEntity[]; resultIngredient: IngredientEntity[]; resultInstruction: InstructionEntity[]; };
+type Props = { alterRecipe: MealEntity[], alterIngredients: IngredientEntityFront[], alterInstructions: InstructionEntityFront[], };
 
 export const Recipe = (props: Props) => {
+    const {alterRecipe, alterIngredients, alterInstructions} = props;
 
-    const {resultMeal, resultIngredient, resultInstruction} = props;
-    console.log(resultIngredient)
-    const [recipeName, setRecipeName] = useState<string>(resultMeal[0].recipeName);
-    const [ingredientsArr, setIngredientsArr] = useState<IngredientEntity[]>(resultIngredient);
-    const [instructionsArr, setInstructionsArr] = useState<InstructionEntity[]>(resultInstruction);
+    const [recipeName, setRecipeName] = useState<string>(alterRecipe[0].recipeName);
+    const [ingredientsArr, setIngredientsArr] = useState<IngredientEntityFront[]>(alterIngredients);
+    const [instructionsArr, setInstructionsArr] = useState<InstructionEntityFront[]>(alterInstructions);
 
     const [ingredientName, setIngredientName] = useState<string>('');
     const [ingredientAmount, setIngredientAmount] = useState<number>(0);
@@ -18,7 +17,6 @@ export const Recipe = (props: Props) => {
     const [ingredientEnergy, setIngredientEnergy] = useState<number>(0);
     const [instructionName, setInstructionName] = useState<string>('');
     const [instructionOrderNumber, setInstructionOrderNumber] = useState<number>(1);
-
 
 
     const handleSubmit = (e: SyntheticEvent) => {
@@ -75,17 +73,19 @@ export const Recipe = (props: Props) => {
 
 
     //adding ingredient to ingredients' array
-    const addIngredient = (e: SyntheticEvent) => {
-        const ingredient = {
-            ingredientName,
-            ingredientAmount,
-            ingredientUnit,
-            ingredientEnergy,
-        }
+    const addIngredient = () => {
+
+        const ingredient: IngredientEntityFront = {
+            name: ingredientName,
+            amount: ingredientAmount,
+            unit: ingredientUnit,
+            energy: ingredientEnergy,
+        };
+
         setIngredientsArr(prev => (
             [
                 ...prev,
-                // ingredient,
+                ingredient,
             ]
         ))
 
@@ -100,20 +100,20 @@ export const Recipe = (props: Props) => {
     //adding instruction to instructions' array
     const addInstruction = (e: SyntheticEvent) => {
 
-        const instruction = {
-            instructionName,
-            instructionOrderNumber,
+        const instruction: InstructionEntityFront = {
+            name: instructionName,
+            orderNumber: instructionOrderNumber,
         }
         setInstructionsArr(prev => (
             [
                 ...prev,
-                // instruction,
+                instruction,
             ]
         ))
 
         //inputs' clearance
         setInstructionName('');
-        setInstructionOrderNumber(0);
+        setInstructionOrderNumber(prev => ++prev);
     }
 
 
@@ -212,13 +212,13 @@ export const Recipe = (props: Props) => {
                     {
                         ingredientsArr.length > 0 ? ingredientsArr.map((el, i) => (
                             <li key={i}>
-                                {el.ingredientName} {el.ingredientAmount} {el.ingredientUnit} - {el.ingredientEnergy} kcal
+                                {el.name} {el.amount} {el.unit} - {el.energy} kcal
                                 <button
                                     data-id={i}
-                                    data-name={el.ingredientName}
-                                    data-amount={el.ingredientAmount}
-                                    data-unit={el.ingredientUnit}
-                                    data-energy={el.ingredientEnergy}
+                                    data-name={el.name}
+                                    data-amount={el.amount}
+                                    data-unit={el.unit}
+                                    data-energy={el.energy}
                                     onClick={editIngredient}>Edit
                                 </button>
                                 <button
@@ -267,14 +267,14 @@ export const Recipe = (props: Props) => {
                 <ul>
                     {
                         instructionsArr.length > 0 ? instructionsArr
-                            .sort((a, b) => a.instructionOrderNumber - b.instructionOrderNumber)
+                            .sort((a, b) => a.orderNumber - b.orderNumber)
                             .map((el, i) => (
                                 <li key={i}>
-                                    {el.instructionOrderNumber}. {el.instructionName}
+                                    {el.orderNumber}. {el.name}
                                     <button
                                         data-id={i}
-                                        data-name={el.instructionName}
-                                        data-number={el.instructionOrderNumber}
+                                        data-name={el.name}
+                                        data-number={el.orderNumber}
                                         onClick={editInstruction}>Edit
                                     </button>
                                     <button

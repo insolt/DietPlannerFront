@@ -30,3 +30,7 @@ input[type="button"] {
     margin: 10px 0 10px 370px;
 
 }
+
+button:hover {
+    cursor: pointer;
+}

@@ -4,6 +4,7 @@ import {MealChoice} from "../../components/MealChoice/MealChoice";
 import {WeekSummary} from "../../components/WeekSummary/WeekSummary";
 import {RecipeSummary} from "../../components/RecipeSummary/RecipeSummary";
 import "./NewPlanner.css";
+import { Confirm } from "../../components/Confirm/Confirm";
 
 
 
@@ -12,6 +13,7 @@ export const NewPlanner = () => {
     const [planName, setPlanName] = useState<string>('');
     const [chosenMeals, setChosenMeals] = useState<MealIdPositionId[]>([]);
     const [lastMealSummary, setLastMealSummary] = useState<SingleMealIds>();
+    const [isSaved, setIsSaved] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -62,6 +64,7 @@ export const NewPlanner = () => {
                 const data = await response.json();
                 if (data.saved) {
                     setChosenMeals([]);
+                    setIsSaved(true);
                 }
             })();
         }
@@ -70,6 +73,11 @@ export const NewPlanner = () => {
     console.log(chosenMeals);
 
     return <>
+        {
+            isSaved ?
+                <Confirm message={"Plan saved"}/> :
+                null
+        }
         <form onSubmit={savePlan}>
             {
                 (mealsList.length > 0) ?
