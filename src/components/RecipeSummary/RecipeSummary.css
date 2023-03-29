@@ -8,33 +8,30 @@ div.recipe-summary {
     padding: 0 10px 15px;
     background-color: #fff;
 }
+
 .left-panel {
     /*border: 1px solid red;*/
     width: 50%;
 }
+
 .right-panel {
     /*border: 1px solid green;*/
     width: 50%;
 }
+
+.column-title {
+    border-bottom: 1px solid #000;
+}
+
 ul {
     margin-left: 20px;
 }
+
 span {
     font-style: italic;
     font-weight: 900;
 }
+
 div.recipe-summary:hover {
     box-shadow: 1px 1px 5px grey;
-}
-
-table {
-    /*width: 25vw;*/
-}
-
-tr {
-    /*padding: 0 20px 5px;*/
-}
-
-tr:nth-child(3) td, tr:nth-child(5) td, tr:nth-child(7) td {
-    background-color: #eeeded;
 }
