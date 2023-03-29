@@ -48,49 +48,36 @@ export const NewPlanner = () => {
         e.preventDefault();
 
         (async () => {
-            const planResponse = await fetch(`http://localhost:3001/plan`, {
+            const response = await fetch(`http://localhost:3001/plan`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({planName}),
             });
-            const data = await planResponse.json();
-            setPlanId(data.id)
-
-        })();
-
-        if (planId) {
+            const data = await response.json();
             setScheduledMeals([...chosenMeals].map(el => (
                 {
                     ...el,
-                    planId,
+                    planId: data.id,
                 }
             )));
-        }
+        })();
 
 
-        console.log('Posilki w planie', scheduledMeals);
-        if (planId) {
 
-            for (let meal of scheduledMeals) {
-                (async () => {
-                    const response = await fetch(`http://localhost:3001/scheduler/${planId}`, {
-                        method: 'POST',
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(meal),
-                    });
-
-                    const data = await response.json();
-                    if (data.saved) {
-                        setChosenMeals([]);
-                        setIsSaved(true);
-                    }
-                })();
-            }
-            setPlanId('');
+        for (let meal of scheduledMeals) {
+            console.log('Posilek w planie', meal);
+            (async () => {
+                const response = await fetch(`http://localhost:3001/scheduler/`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(meal),
+                });
+                await setIsSaved(true);
+            })();
         }
 
     }
