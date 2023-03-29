@@ -1,8 +1,7 @@
 import React, {SyntheticEvent, useState} from "react";
-import {IngredientEntity, InstructionEntity, MealIngredientInstruction} from 'types';
+import {IngredientEntityFront, InstructionEntityFront} from 'types';
 import "./NewRecipe.css";
 
-type Props = MealIngredientInstruction | null;
 
 export const NewRecipe = () => {
     const [recipeName, setRecipeName] = useState<string>('');
@@ -11,9 +10,9 @@ export const NewRecipe = () => {
     const [ingredientUnit, setIngredientUnit] = useState<string>('');
     const [ingredientEnergy, setIngredientEnergy] = useState<number>(0);
     const [instructionName, setInstructionName] = useState<string>('');
-    const [instructionOrderNumber, setInstructionOrderNumber] = useState<number>(0);
-    const [ingredientsArr, setIngredientsArr] = useState<IngredientEntity[]>([]);
-    const [instructionsArr, setInstructionsArr] = useState<InstructionEntity[]>([]);
+    const [instructionOrderNumber, setInstructionOrderNumber] = useState<number>(1);
+    const [ingredientsArr, setIngredientsArr] = useState<IngredientEntityFront[]>([]);
+    const [instructionsArr, setInstructionsArr] = useState<InstructionEntityFront[]>([]);
 
 
     const handleSubmit = (e: SyntheticEvent) => {
@@ -32,9 +31,9 @@ export const NewRecipe = () => {
             const mealData = await mealResponse.json();
 
             //adding all ingredients to DB along with recipe ID
-            if (mealData.id) {
+            if (ingredientsArr.length > 0) {
                 for (let ingredient of ingredientsArr) {
-                    const ingredientResponse = await fetch('http://localhost:3001/ingredient', {
+                    await fetch('http://localhost:3001/ingredient', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'
@@ -50,7 +49,7 @@ export const NewRecipe = () => {
             //adding all instructions to DB along with recipe ID
             if (mealData.id) {
                 for (let instruction of instructionsArr) {
-                    const instructionResponse = await fetch('http://localhost:3001/instruction', {
+                    await fetch('http://localhost:3001/instruction', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'
@@ -70,18 +69,19 @@ export const NewRecipe = () => {
 
 
     //adding ingredient to ingredients' array
-    const addIngredient = (e: SyntheticEvent) => {
+    const addIngredient = () => {
 
-        const ingredient = {
-            ingredientName,
-            ingredientAmount,
-            ingredientUnit,
-            ingredientEnergy,
-        }
+        const ingredient: IngredientEntityFront = {
+            name: ingredientName,
+            amount: ingredientAmount,
+            unit: ingredientUnit,
+            energy: ingredientEnergy,
+        };
+
         setIngredientsArr(prev => (
             [
                 ...prev,
-                // ingredient,
+                ingredient,
             ]
         ))
 
@@ -96,20 +96,20 @@ export const NewRecipe = () => {
     //adding instruction to instructions' array
     const addInstruction = (e: SyntheticEvent) => {
 
-        const instruction = {
-            instructionName,
-            instructionOrderNumber,
+        const instruction: InstructionEntityFront = {
+            name: instructionName,
+            orderNumber: instructionOrderNumber,
         }
         setInstructionsArr(prev => (
             [
                 ...prev,
-                // instruction,
+                instruction,
             ]
         ))
 
         //inputs' clearance
         setInstructionName('');
-        setInstructionOrderNumber(0);
+        setInstructionOrderNumber(prev => ++prev);
     }
 
 
@@ -173,6 +173,7 @@ export const NewRecipe = () => {
                             <label>Amount</label>
                             <input
                                 type="number"
+                                min="0"
                                 name="ingredientAmount"
                                 value={ingredientAmount}
                                 onChange={e => setIngredientAmount(Number(e.target.value))}
@@ -191,14 +192,15 @@ export const NewRecipe = () => {
                         </div>
                         <br/>
                         <div className="elementForm">
-                            <label>Energy</label>
+                            <label>Energy/kcal</label>
                             <input
                                 type="number"
+                                min="0"
                                 name="ingredientEnergy"
                                 value={ingredientEnergy}
                                 onChange={e => setIngredientEnergy(Number(e.target.value))}
                             />
-                        </div>kcal
+                        </div>
                     </legend>
                     <input type="button" value="Add ingredient" onClick={addIngredient}/>
                 </form>
@@ -208,13 +210,13 @@ export const NewRecipe = () => {
                     {
                         ingredientsArr.length > 0 ? ingredientsArr.map((el, i) => (
                             <li key={i}>
-                                {el.ingredientName} {el.ingredientAmount} {el.ingredientUnit} - {el.ingredientEnergy} kcal
+                                {el.name} {el.amount} {el.unit} - {el.energy} kcal
                                 <button
                                     data-id={i}
-                                    data-name={el.ingredientName}
-                                    data-amount={el.ingredientAmount}
-                                    data-unit={el.ingredientUnit}
-                                    data-energy={el.ingredientEnergy}
+                                    data-name={el.name}
+                                    data-amount={el.amount}
+                                    data-unit={el.unit}
+                                    data-energy={el.energy}
                                     onClick={editIngredient}>Edit
                                 </button>
                                 <button
@@ -235,9 +237,10 @@ export const NewRecipe = () => {
                         <b>Instruction</b>
                         <br/><br/>
                         <div className="elementForm">
-                            <label>Order number</label>
+                            <label>Instr. no</label>
                             <input
                                 type="number"
+                                min="1"
                                 name="instructionOrderNumber"
                                 value={instructionOrderNumber}
                                 onChange={e => setInstructionOrderNumber(Number(e.target.value))}
@@ -263,14 +266,14 @@ export const NewRecipe = () => {
                 <ul>
                     {
                         instructionsArr.length > 0 ? instructionsArr
-                            .sort((a, b) => a.instructionOrderNumber - b.instructionOrderNumber)
+                            .sort((a, b) => a.orderNumber - b.orderNumber)
                             .map((el, i) => (
                                 <li key={i}>
-                                    {el.instructionOrderNumber}. {el.instructionName}
+                                    {el.orderNumber}. {el.name}
                                     <button
                                         data-id={i}
-                                        data-name={el.instructionName}
-                                        data-number={el.instructionOrderNumber}
+                                        data-name={el.name}
+                                        data-number={el.orderNumber}
                                         onClick={editInstruction}>Edit
                                     </button>
                                     <button

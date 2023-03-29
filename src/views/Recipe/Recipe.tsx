@@ -17,7 +17,7 @@ export const Recipe = (props: Props) => {
     const [ingredientUnit, setIngredientUnit] = useState<string>('');
     const [ingredientEnergy, setIngredientEnergy] = useState<number>(0);
     const [instructionName, setInstructionName] = useState<string>('');
-    const [instructionOrderNumber, setInstructionOrderNumber] = useState<number>(0);
+    const [instructionOrderNumber, setInstructionOrderNumber] = useState<number>(1);
 
 
 
