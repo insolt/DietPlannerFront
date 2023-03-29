@@ -28,7 +28,6 @@ export const RecipeSummary = (props: Props) => {
             const response = await fetch(`http://localhost:3001/ingredient/getSet/${props.mealId}`);
             const data = await response.json();
             setIngredientData(data);
-            console.log('skaldniki', data);
         })();
     },[props])
 
@@ -38,7 +37,6 @@ export const RecipeSummary = (props: Props) => {
             const response = await fetch(`http://localhost:3001/instruction/getSet/${props.mealId}`);
             const data = await response.json();
             setInstructionData(data);
-            console.log('instrukcje', data);
         })();
     },[props])
 

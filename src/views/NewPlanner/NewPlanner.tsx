@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {MealEntity, MealIdPositionId, SingleMealIds} from 'types';
+import {MealEntity, MealIdPositionId, SingleMealIds, Scheduler} from 'types';
 import {MealChoice} from "../../components/MealChoice/MealChoice";
 import {WeekSummary} from "../../components/WeekSummary/WeekSummary";
 import {RecipeSummary} from "../../components/RecipeSummary/RecipeSummary";
@@ -11,7 +11,9 @@ import { Confirm } from "../../components/Confirm/Confirm";
 export const NewPlanner = () => {
     const [mealsList, setMealsList] = useState<MealEntity[]>([]);
     const [planName, setPlanName] = useState<string>('');
+    const [planId, setPlanId] = useState<string>('');
     const [chosenMeals, setChosenMeals] = useState<MealIdPositionId[]>([]);
+    const [scheduledMeals, setScheduledMeals] = useState<Scheduler[]>([]);
     const [lastMealSummary, setLastMealSummary] = useState<SingleMealIds>();
     const [isSaved, setIsSaved] = useState<boolean>(false);
 
@@ -30,7 +32,6 @@ export const NewPlanner = () => {
 
         setChosenMeals(prev => (
             [...prev, {
-                recipeName: userChosenMeal,
                 mealId: e.target.value,
                 plannerPositionId: Number(e.target.dataset.id),
             }]
@@ -45,32 +46,54 @@ export const NewPlanner = () => {
 
     const savePlan = (e: any) => {
         e.preventDefault();
-        const mealPlannerData = [...chosenMeals].map(el => (
-            {
-                ...el,
-                planName,
-            }
-        ));
 
-        for (let mealPlan of mealPlannerData) {
-            (async () => {
-                const response = await fetch(`http://localhost:3001/plan`, {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(mealPlan),
-                });
-                const data = await response.json();
-                if (data.saved) {
-                    setChosenMeals([]);
-                    setIsSaved(true);
+        (async () => {
+            const planResponse = await fetch(`http://localhost:3001/plan`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({planName}),
+            });
+            const data = await planResponse.json();
+            setPlanId(data.id)
+
+        })();
+
+        if (planId) {
+            setScheduledMeals([...chosenMeals].map(el => (
+                {
+                    ...el,
+                    planId,
                 }
-            })();
+            )));
         }
-    }
 
-    console.log(chosenMeals);
+
+        console.log('Posilki w planie', scheduledMeals);
+        if (planId) {
+
+            for (let meal of scheduledMeals) {
+                (async () => {
+                    const response = await fetch(`http://localhost:3001/scheduler/${planId}`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(meal),
+                    });
+
+                    const data = await response.json();
+                    if (data.saved) {
+                        setChosenMeals([]);
+                        setIsSaved(true);
+                    }
+                })();
+            }
+            setPlanId('');
+        }
+
+    }
 
     return <>
         {
