@@ -3,8 +3,9 @@ import {MealEntity, MealIdPositionId, SingleMealIds, Scheduler} from 'types';
 import {MealChoice} from "../../components/MealChoice/MealChoice";
 import {WeekSummary} from "../../components/WeekSummary/WeekSummary";
 import {RecipeSummary} from "../../components/RecipeSummary/RecipeSummary";
-import "./NewPlanner.css";
 import { Confirm } from "../../components/Confirm/Confirm";
+import {apiUrl} from "../../config/api";
+import "./NewPlanner.css";
 
 
 
@@ -20,7 +21,7 @@ export const NewPlanner = () => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch('http://localhost:3001/meal/all');
+            const response = await fetch(`${apiUrl}/meal/all`);
             const data = await response.json();
             setMealsList(data);
         })();
@@ -48,7 +49,7 @@ export const NewPlanner = () => {
         e.preventDefault();
 
         (async () => {
-            const response = await fetch(`http://localhost:3001/plan`, {
+            const response = await fetch(`${apiUrl}/plan`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -69,7 +70,7 @@ export const NewPlanner = () => {
         for (let meal of scheduledMeals) {
             console.log('Posilek w planie', meal);
             (async () => {
-                const response = await fetch(`http://localhost:3001/scheduler/`, {
+                const response = await fetch(`${apiUrl}/scheduler`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",

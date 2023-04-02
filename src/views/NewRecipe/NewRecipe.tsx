@@ -1,5 +1,6 @@
 import React, {SyntheticEvent, useState} from "react";
 import {IngredientEntityFront, InstructionEntityFront} from 'types';
+import {apiUrl} from "../../config/api";
 import "./NewRecipe.css";
 
 
@@ -19,7 +20,7 @@ export const NewRecipe = () => {
         e.preventDefault();
         (async () => {
             //adding recipe name to DB and receiving its ID
-            const mealResponse = await fetch('http://localhost:3001/meal', {
+            const mealResponse = await fetch(`${apiUrl}/meal`, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -33,7 +34,7 @@ export const NewRecipe = () => {
             //adding all ingredients to DB along with recipe ID
             if (ingredientsArr.length > 0) {
                 for (let ingredient of ingredientsArr) {
-                    await fetch('http://localhost:3001/ingredient', {
+                    await fetch(`${apiUrl}/ingredient`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'
@@ -49,7 +50,7 @@ export const NewRecipe = () => {
             //adding all instructions to DB along with recipe ID
             if (mealData.id) {
                 for (let instruction of instructionsArr) {
-                    await fetch('http://localhost:3001/instruction', {
+                    await fetch(`${apiUrl}/instruction`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'

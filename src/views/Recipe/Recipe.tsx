@@ -1,5 +1,6 @@
-import React, {SyntheticEvent, useEffect, useState} from "react";
-import {IngredientEntity, IngredientEntityFront, InstructionEntity, InstructionEntityFront, MealEntity} from 'types';
+import React, {SyntheticEvent, useState} from "react";
+import {IngredientEntityFront, InstructionEntityFront, MealEntity} from 'types';
+import {apiUrl} from "../../config/api";
 import "./Recipe.css";
 
 type Props = { alterRecipe: MealEntity[], alterIngredients: IngredientEntityFront[], alterInstructions: InstructionEntityFront[], };
@@ -23,7 +24,7 @@ export const Recipe = (props: Props) => {
         e.preventDefault();
         (async () => {
             //adding recipe name to DB and receiving its ID
-            const mealResponse = await fetch('http://localhost:3001/meal', {
+            const mealResponse = await fetch(`${apiUrl}/meal`, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -37,7 +38,7 @@ export const Recipe = (props: Props) => {
             //adding all ingredients to DB along with recipe ID
             if (mealData.id) {
                 for (let ingredient of ingredientsArr) {
-                    const ingredientResponse = await fetch('http://localhost:3001/ingredient', {
+                    const ingredientResponse = await fetch(`${apiUrl}/ingredient`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'
@@ -53,7 +54,7 @@ export const Recipe = (props: Props) => {
             //adding all instructions to DB along with recipe ID
             if (mealData.id) {
                 for (let instruction of instructionsArr) {
-                    const instructionResponse = await fetch('http://localhost:3001/instruction', {
+                    const instructionResponse = await fetch(`${apiUrl}/instruction`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'

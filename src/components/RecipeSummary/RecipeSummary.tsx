@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {IngredientEntityFront, InstructionEntityFront, MealEntity} from "types";
+import {apiUrl} from "../../config/api";
 import "./RecipeSummary.css";
 
 
@@ -16,7 +17,7 @@ export const RecipeSummary = (props: Props) => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/meal/${props.mealId}`);
+            const response = await fetch(`${apiUrl}/meal/${props.mealId}`);
             const data = await response.json();
             setMealData(data);
         })();
@@ -25,7 +26,7 @@ export const RecipeSummary = (props: Props) => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/ingredient/getSet/${props.mealId}`);
+            const response = await fetch(`${apiUrl}/ingredient/getSet/${props.mealId}`);
             const data = await response.json();
             setIngredientData(data);
         })();
@@ -34,7 +35,7 @@ export const RecipeSummary = (props: Props) => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/instruction/getSet/${props.mealId}`);
+            const response = await fetch(`${apiUrl}/instruction/getSet/${props.mealId}`);
             const data = await response.json();
             setInstructionData(data);
         })();

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {apiUrl} from "../../config/api";
 import "./WeekSummary.css";
 
 
@@ -28,7 +29,7 @@ export const WeekSummary = (props: Props) => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/ingredient/findOneEnergy/${props.mealId}`);
+            const response = await fetch(`${apiUrl}/ingredient/findOneEnergy/${props.mealId}`);
             const data = await response.json();
             setData(data);
             setMealPosition(props.plannerPositionId);

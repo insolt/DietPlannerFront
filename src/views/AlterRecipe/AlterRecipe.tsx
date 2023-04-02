@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {IngredientEntityFront, InstructionEntityFront, MealEntity} from "types";
 import {MealChoice} from "../../components/MealChoice/MealChoice";
 import {Recipe} from "../Recipe/Recipe";
+import {apiUrl} from "../../config/api";
 import "./AlterRecipe.css";
 
 
@@ -15,7 +16,7 @@ export const AlterRecipe = () => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch('http://localhost:3001/meal/all');
+            const response = await fetch(`${apiUrl}/meal/all`);
             const data = await response.json();
             setMealsList(data);
         })();
@@ -24,7 +25,7 @@ export const AlterRecipe = () => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/meal/${alterRecipeOfMealId}`);
+            const response = await fetch(`${apiUrl}/meal/${alterRecipeOfMealId}`);
             const data = await response.json();
             setRecipeName(data[0].recipeName);
         })();
@@ -33,7 +34,7 @@ export const AlterRecipe = () => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/ingredient/getSet/${alterRecipeOfMealId}`);
+            const response = await fetch(`${apiUrl}/ingredient/getSet/${alterRecipeOfMealId}`);
             const data = await response.json();
             setIngredientsArr(data);
         })();
@@ -42,7 +43,7 @@ export const AlterRecipe = () => {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/instruction/getSet/${alterRecipeOfMealId}`);
+            const response = await fetch(`${apiUrl}/instruction/getSet/${alterRecipeOfMealId}`);
             const data = await response.json();
             setInstructionsArr(data);
         })();
