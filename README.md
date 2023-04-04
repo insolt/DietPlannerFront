@@ -9,6 +9,7 @@ creating and emailing shopping list for saved plans,
 controling daily calories intake,
 users login with email and password,
 Mobile First approach.
-Backend part of application uses Express framework.
+
+Frontend part of application uses React library as a core. Data is stored in MySQL MariaDB database.
 
 Partialy working application is available on <a href="https://mealplanner.networkmanager.pl"> here... </a>
