@@ -10,6 +10,8 @@ controling daily calories intake,
 users login with email and password,
 Mobile First approach.
 
-Frontend part of application uses React library as a core. Data is stored in MySQL MariaDB database.
+Frontend part of application uses React library as a core, Express supports backend logics whilst data is stored in MySQL MariaDB database.
 
 Partialy working application is available on <a href="https://mealplanner.networkmanager.pl"> here... </a>
+
+More featurs are going to be available soon!
