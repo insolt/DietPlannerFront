@@ -14,4 +14,4 @@ Frontend part of application uses React library as a core, Express supports back
 
 Partialy working application is available on <a href="https://mealplanner.networkmanager.pl"> here... </a>
 
-More featurs are going to be available very soon!
+More features are going to be available very soon!
